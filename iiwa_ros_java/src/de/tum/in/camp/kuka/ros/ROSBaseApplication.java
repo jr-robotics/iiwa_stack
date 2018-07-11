@@ -23,6 +23,7 @@
 
 package de.tum.in.camp.kuka.ros;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,9 @@ import com.kuka.roboticsAPI.geometricModel.Tool;
 import com.kuka.roboticsAPI.uiModel.userKeys.IUserKey;
 import com.kuka.roboticsAPI.uiModel.userKeys.IUserKeyBar;
 import com.kuka.roboticsAPI.uiModel.userKeys.IUserKeyListener;
+
+import de.tum.in.camp.kuka.ros.configuration.FileBasedConfigurationProviderFactory;
+import de.tum.in.camp.kuka.ros.configuration.IConfigurationProvider;
 
 /*
  * Base application for all ROS-Sunrise applications. 
@@ -96,10 +100,26 @@ public abstract class ROSBaseApplication extends RoboticsAPIApplication {
 	protected int controlDecimation = 8;
 
 
+	/**
+	 * Returns the configuration provider which should be used for the application.
+	 * 
+	 * The base implementation returns a configuration provider using the default config.txt  
+	 * 
+	 * @return Configuration provider
+	 */
+	protected IConfigurationProvider getConfigurationProvider() {
+		try {
+			return FileBasedConfigurationProviderFactory.createFromDefaultConfigFile();
+		} catch (IOException e) {
+			throw new RuntimeException("Could not create default configuration provider.", e);
+		}
+	}
+	
 	public void initialize() {
 		robot = getContext().getDeviceFromType(LBR.class);
 
 		// Standard configuration.
+		iiwaConfiguration.setConfigurationProvider(getConfigurationProvider());
 		configuration = new iiwaConfiguration();
 		publisher = new iiwaPublisher(iiwaConfiguration.getRobotName());
 		handler = new ROSGoalReachedEventListener(publisher);
