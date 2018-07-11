@@ -1,8 +1,8 @@
 /**  
  * Copyright (C) 2018 Guido Breitenhuber - guido.breitenhuber@joanneum.at, Thomas Haspl - thomas.haspl@joanneum.at
  * JOANNEUM RESEARCH Forschungsgesellschaft mbH
- * ROBOTICS – Institute for Robotics and Mechatronics
- * Lakeside B08a, 9020 Klagenfurt am Wörthersee, Austria
+ * ROBOTICS ï¿½ Institute for Robotics and Mechatronics
+ * Lakeside B08a, 9020 Klagenfurt am Wï¿½rthersee, Austria
  * http://www.joanneum.at/robotics
  * All rights reserved.
  * 
@@ -58,8 +58,7 @@ public class ProcessDataConfigurationProvider implements IConfigurationProvider 
 
 	@Override
 	public int getRosMasterPort() {
-		String rosMasterPort = applicationData.getProcessData("rosMasterPort").getValue();
-		return Integer.parseInt(rosMasterPort);
+		return applicationData.getProcessData("rosMasterPort").getValue();
 	}
 
 	@Override
